@@ -1,12 +1,12 @@
 {
-    "contents" : "pollutantmean <- function(directory, pollutant, ids = 1:332) {\n  trueDir = paste(c(getwd(), \"/\", directory), collapse='')\n  for(id in ids) {\n    if(id < 10){\n      name = paste(c(\"00\", id), collapse='')\n    } else if (id < 100) {\n      name = paste(c(\"0\", id), collapse='')  \n    } else {\n      name = id\n    }\n    filename = paste(c(trueDir, name, \".csv\"), collapse='')\n    table = read.csv(filename)\n    good <- complete.cases(table)\n    table <- table[good,]\n    print(table)\n  }\n}",
+    "contents" : "pollutantmean <- function(directory, pollutant, ids = 1:332) {\n  if(!(pollutant == \"sulfate\" || pollutant == \"nitrate\")) {\n    return(\"fail\")\n  }\n  trueDir = paste(c(getwd(), \"/\", directory), collapse='')\n  allMeans <- vector()\n  for(id in ids) {\n    if(id < 10){\n      name = paste(c(\"00\", id), collapse='')\n    } else if (id < 100) {\n      name = paste(c(\"0\", id), collapse='')  \n    } else {\n      name = id\n    }\n    filename = paste(c(trueDir, name, \".csv\"), collapse='')\n    table = read.csv(filename)\n    good <- complete.cases(table)\n    table <- table[good,]\n    allMeans <- c(allMeans, mean(table[[pollutant]]))\n  }\n  \n  return(mean(allMeans))\n}",
     "created" : 1412088238935.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "60712884",
+    "hash" : "3754129204",
     "id" : "1F3DF07",
-    "lastKnownWriteTime" : 1412090345,
+    "lastKnownWriteTime" : 1412092461,
     "path" : "~/Projects/othr/R/week2/R/pollutantmean.R",
     "project_path" : "R/pollutantmean.R",
     "properties" : {
