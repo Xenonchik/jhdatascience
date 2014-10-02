@@ -1,9 +1,8 @@
-pollutantmean <- function(directory, pollutant, ids = 1:332) {
-  if(!(pollutant == "sulfate" || pollutant == "nitrate")) {
-    return("fail")
-  }
+corr <- function(directory, threshold = 0) {
   trueDir = paste(c(getwd(), "/", directory), collapse='')
-  allMeans <- vector()
+#   result <- data.frame(sulfates <- numeric(0), nitrates <- numeric(0))
+  x <- numeric()
+  ids <- 1:332
   for(id in ids) {
     if(id < 10){
       name = paste(c("00", id), collapse='')
@@ -16,8 +15,10 @@ pollutantmean <- function(directory, pollutant, ids = 1:332) {
     table = read.csv(filename)
     good <- complete.cases(table)
     table <- table[good,]
-    allMeans <- c(allMeans, mean(table[[pollutant]]))
+    if(nrow(table) <= threshold ) {
+      next  
+    }
+     x <- c(x, cor(table[, c("sulfate")], table[, c("nitrate")]))
   }
-  print(allMeans)
-  return(mean(allMeans))
+  return(x)
 }
